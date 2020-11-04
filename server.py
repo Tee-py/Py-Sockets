@@ -1,6 +1,7 @@
 import socket
 import threading
 
+#size of messages in bytes to be recieved by the socket server. Must be fixed
 HEADER = 64
 PORT = 8080
 SERVER = socket.gethostbyname(socket.gethostname())
@@ -16,11 +17,12 @@ def handle_client(conn, addr):
     connected = True
     while connected:
         msg_length = conn.recv(HEADER).decode(FORMAT)
-        msg_length = int(msg_length)
-        msg = conn.recv(msg_length).decode(FORMAT)
-        if msg == DISCONNECT_MESSAGE:
-            connected = False
-        print(f"[{addr}] {msg}")
+        if msg_length:
+            msg_length = int(msg_length)
+            msg = conn.recv(msg_length).decode(FORMAT)
+            if msg == DISCONNECT_MESSAGE:
+                connected = False
+            print(f"[{addr}] {msg}")
     
     conn.close()
 
