@@ -20,3 +20,4 @@ def send(msg):
     client.send(message)
 
 send("Hello world")
+send("!DISCONNECT")
